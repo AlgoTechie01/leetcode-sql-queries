@@ -49,4 +49,15 @@ METHOD-3
 		   ORDER BY Salary DESC
 			LIMIT 1 OFFSET 1),
 		NULL) AS SecondHighestSalary
+		
+METHOD-4
+
+	WITH RankedSalaries AS (
+		SELECT Salary, 
+			   DENSE_RANK() OVER (ORDER BY Salary DESC) AS salary_rank
+		FROM Employee
+	)
+	SELECT DISTINCT Salary AS SecondHighestSalary
+	FROM RankedSalaries
+	WHERE salary_rank = 2;
 ======================================================================================================================================================
